@@ -3,7 +3,7 @@ package br.com.ufpe.course.user.controller
 interface UserController {
 
     fun create()
-    fun delete()
+    fun delete(id: Int)
     fun getAll()
-    fun getOne()
+    fun getOne(id: Int)
 }
