@@ -12,17 +12,21 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
+import javax.validation.Valid
 
 @RestController
 class UserControllerImpl(private val userService: UserService) : UserController {
 
     @PostMapping(path = ["/user"])
-    override fun create(@RequestBody user: User): BodyBuilder {
+    override fun create(@Valid @RequestBody user: User): BodyBuilder {
+
+        val id = userService.save(user).id
+
        return ResponseEntity.created(
                ServletUriComponentsBuilder
                        .fromCurrentRequest()
                        .path("/{id}")
-                       .buildAndExpand(userService.save(user).id)
+                       .buildAndExpand(id)
                        .toUri()
        )
     }
