@@ -5,9 +5,9 @@ import br.com.ufpe.course.user.domain.User
 import br.com.ufpe.course.user.service.UserService
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
-import org.springframework.hateoas.EntityModel
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn
+import org.springframework.hateoas.Resource
+import org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo
+import org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -40,8 +40,8 @@ class UserControllerImpl(
     }
 
     @GetMapping(path = ["/users/{id}"])
-    override fun getOne(@PathVariable id: Int): EntityModel<User> {
-        return EntityModel(userService.findOne(id))
+    override fun getOne(@PathVariable id: Int): Resource<User> {
+        return Resource(userService.findOne(id))
             .also {
                 it.add(linkTo(methodOn(this.javaClass).getOne(id))
                     .withSelfRel()
@@ -52,9 +52,6 @@ class UserControllerImpl(
 
     @GetMapping(path=["/hello-world-internationalized"])
     fun helloWorldInternationalized(): String {
-        return messageSource.getMessage(
-            "message.good.morning",
-            null,
-            LocaleContextHolder.getLocale())
+        return messageSource.getMessage("message.good.morning", null, LocaleContextHolder.getLocale())
     }
 }

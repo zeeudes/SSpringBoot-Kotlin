@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	kotlin("plugin.jpa") version "1.3.31"
-	id("org.springframework.boot") version "2.2.0.BUILD-SNAPSHOT"
+	id("org.springframework.boot") version "2.1.7.BUILD-SNAPSHOT"
 	id("io.spring.dependency-management") version "1.0.7.RELEASE"
 	kotlin("jvm") version "1.3.31"
 	kotlin("plugin.spring") version "1.3.31"
@@ -20,6 +20,8 @@ repositories {
 }
 
 dependencies {
+	implementation("org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE")
+	implementation("io.springfox:springfox-swagger-ui:2.9.2")
 	implementation("io.springfox:springfox-swagger2:2.9.2")
 	implementation("org.springframework.boot:spring-boot-starter-hateoas")
 	implementation("org.springframework.boot:spring-boot-starter-web")
