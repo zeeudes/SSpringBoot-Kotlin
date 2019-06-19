@@ -4,16 +4,16 @@ import br.com.ufpe.course.NotFound
 import br.com.ufpe.course.user.domain.User
 import br.com.ufpe.course.user.service.UserService
 import org.springframework.stereotype.Component
-import java.time.Instant
+import java.time.Instant.now
 
 @Component
 class UserServiceImpl : UserService {
 
     init {
         users.addAll(listOf(
-                User(1, "Adam", Instant.now().toEpochMilli()),
-                User(2, "Eve", Instant.now().toEpochMilli()),
-                User(3, "Jack", Instant.now().toEpochMilli())
+                User(1, "Adam", now().toEpochMilli()),
+                User(2, "Eve", now().toEpochMilli()),
+                User(3, "Jack", now().toEpochMilli())
         ))
     }
 

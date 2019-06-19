@@ -1,10 +1,12 @@
 package br.com.ufpe.course
 
-import org.springframework.beans.TypeMismatchException
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -50,6 +52,22 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
                         type = NOT_FOUND
                 ),
                 NOT_FOUND
+        )
+    }
+
+    override fun handleMethodArgumentNotValid(
+            ex: MethodArgumentNotValidException,
+            headers: HttpHeaders,
+            status: HttpStatus,
+            request: WebRequest
+    ): ResponseEntity<Any> {
+        return ResponseEntity(
+                APIError(
+                        message = ex.message,
+                        details = request.getDescription(false),
+                        type = BAD_REQUEST
+                ),
+                BAD_REQUEST
         )
     }
 }
