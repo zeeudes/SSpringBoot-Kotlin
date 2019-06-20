@@ -6,5 +6,5 @@ interface UserService {
     fun findAll(): List<User>
     fun save(user: User): User
     fun findOne(id: Int): User
-    fun remove(id: Int): Boolean
+    fun remove(id: Int)
 }

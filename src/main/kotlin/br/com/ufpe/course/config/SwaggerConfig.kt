@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
+import springfox.documentation.service.ApiInfo
+import springfox.documentation.service.Contact
 import springfox.documentation.spi.DocumentationType.SWAGGER_2
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
@@ -18,4 +20,22 @@ class SwaggerConfig {
         .apis(RequestHandlerSelectors.any())
         .paths(PathSelectors.any())
         .build()
+        .apiInfo(API_INFO)
+        .produces(DEFAULT_PRODUCES_CONSUMES)
+        .consumes(DEFAULT_PRODUCES_CONSUMES)
+
+    private companion object {
+        val DEFAULT_CONTACT = Contact("José Eudes", "zeeudes@icloud.com", "zeeudes@icloud.com")
+        val DEFAULT_PRODUCES_CONSUMES = hashSetOf("application/json")
+        val API_INFO = ApiInfo(
+            "Awesome API Title",
+            "Awesome API Documentation",
+            "1.0",
+            "urn:tos",
+            DEFAULT_CONTACT,
+            "Apache2.0",
+            "http://www.apache.org/licenses/LICENCE-2.0",
+            listOf()
+        )
+    }
 }
