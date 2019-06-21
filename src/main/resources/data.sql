@@ -1,3 +1,3 @@
-INSERT INTO user VALUES (1, sysdate(), 'AB');
-INSERT INTO user VALUES (2, sysdate(), 'Jill');
-INSERT INTO user VALUES (3, sysdate(), 'Jam');
+INSERT INTO user VALUES (NEXTVAL('HIBERNATE_SEQUENCE'), sysdate(), 'AB');
+INSERT INTO user VALUES (NEXTVAL('HIBERNATE_SEQUENCE'), sysdate(), 'Jill');
+INSERT INTO user VALUES (NEXTVAL('HIBERNATE_SEQUENCE'), sysdate(), 'Jam');

@@ -1,11 +1,13 @@
 package br.com.ufpe.course
 
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.ResponseEntity
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -35,21 +37,25 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
     fun handleAllExceptions(ex: Exception, request: WebRequest): ResponseEntity<APIError> {
         return ResponseEntity(
                 APIError(
-                        message = ex.message,
-                        details = request.getDescription(false),
-                        type = INTERNAL_SERVER_ERROR
+                    message = ex.message,
+                    details = request.getDescription(false),
+                    type = INTERNAL_SERVER_ERROR
                 ),
                 INTERNAL_SERVER_ERROR
         )
     }
 
-    @ExceptionHandler(NotFound::class)
+    @ExceptionHandler(
+        NotFound::class,
+        JpaObjectRetrievalFailureException::class,
+        EmptyResultDataAccessException::class
+    )
     fun handleNotFoundException(ex: Exception, request: WebRequest): ResponseEntity<APIError> {
         return ResponseEntity(
                 APIError(
-                        message = ex.message,
-                        details = request.getDescription(false),
-                        type = NOT_FOUND
+                    message = ex.message,
+                    details = request.getDescription(false),
+                    type = NOT_FOUND
                 ),
                 NOT_FOUND
         )
@@ -63,9 +69,9 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
     ): ResponseEntity<Any> {
         return ResponseEntity(
                 APIError(
-                        message = ex.message,
-                        details = request.getDescription(false),
-                        type = BAD_REQUEST
+                    message = ex.message,
+                    details = request.getDescription(false),
+                    type = BAD_REQUEST
                 ),
                 BAD_REQUEST
         )

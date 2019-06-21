@@ -9,10 +9,10 @@ import java.util.Locale.US
 @SpringBootApplication
 class CourseApplication
 
-	fun main(args: Array<String>) {
-		runApplication<CourseApplication>(*args)
-	}
+fun main(args: Array<String>) {
+	runApplication<CourseApplication>(*args)
+}
 
-	@Bean
-	fun localeResolver() = AcceptHeaderLocaleResolver()
-		.also { it.defaultLocale = US }
+@Bean
+fun localeResolver() = AcceptHeaderLocaleResolver()
+	.also { it.defaultLocale = US }
