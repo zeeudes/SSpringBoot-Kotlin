@@ -38,7 +38,8 @@ class UserControllerImpl(
     override fun getAll() = userService.findAll()
 
     @GetMapping(path=["/users/{id}/birthday"])
-    fun getBirthDay(@PathVariable id: Int) = MappingJacksonValue(userService.findOne(id))
+    override fun getBirthDay(@PathVariable id: Int): MappingJacksonValue =
+        MappingJacksonValue(userService.findOne(id))
             .also { it.filters = SimpleFilterProvider()
                 .addFilter("UserFilter", SimpleBeanPropertyFilter
                     .filterOutAllExcept("birthDate"))

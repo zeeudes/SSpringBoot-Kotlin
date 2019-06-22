@@ -3,9 +3,9 @@ package br.com.ufpe.course.user.service.impl
 import br.com.ufpe.course.user.domain.User
 import br.com.ufpe.course.user.repository.UserRepository
 import br.com.ufpe.course.user.service.UserService
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 
-@Component
+@Service
 class UserServiceImpl(
     private val userRepository: UserRepository
 ) : UserService {
