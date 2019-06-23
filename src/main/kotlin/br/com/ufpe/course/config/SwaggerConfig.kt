@@ -2,6 +2,7 @@ package br.com.ufpe.course.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.MediaType.APPLICATION_JSON
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
 import springfox.documentation.service.ApiInfo
@@ -26,7 +27,7 @@ class SwaggerConfig {
 
     private companion object {
         val DEFAULT_CONTACT = Contact("José Eudes", "zeeudes@icloud.com", "zeeudes@icloud.com")
-        val DEFAULT_PRODUCES_CONSUMES = hashSetOf("application/json")
+        val DEFAULT_PRODUCES_CONSUMES = hashSetOf(APPLICATION_JSON.toString())
         val API_INFO = ApiInfo(
             "Awesome API Title",
             "Awesome API Documentation",

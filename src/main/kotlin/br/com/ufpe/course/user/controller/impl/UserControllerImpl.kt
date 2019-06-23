@@ -55,7 +55,6 @@ class UserControllerImpl(
                 )
             }
 
-
     @GetMapping(path=["/hello-world-internationalized"])
     fun helloWorldInternationalized() = messageSource
         .getMessage("message.good.morning", null, LocaleContextHolder.getLocale())

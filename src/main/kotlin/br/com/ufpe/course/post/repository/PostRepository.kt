@@ -5,6 +5,5 @@ import br.com.ufpe.course.user.domain.User
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface PostRepository : JpaRepository<Post, Int> {
-
     fun findAllByUser(user: User): List<Post>
 }
