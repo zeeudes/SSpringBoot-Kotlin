@@ -24,6 +24,7 @@ class SwaggerConfig {
         .apiInfo(API_INFO)
         .produces(DEFAULT_PRODUCES_CONSUMES)
         .consumes(DEFAULT_PRODUCES_CONSUMES)
+        .host("http://localhost:8080/")
 
     private companion object {
         val DEFAULT_CONTACT = Contact("José Eudes", "zeeudes@icloud.com", "zeeudes@icloud.com")

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.HttpStatus.NOT_FOUND
+import org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY
 import org.springframework.http.ResponseEntity
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -32,6 +33,18 @@ class NotFound(
 
 @ResponseStatus(BAD_REQUEST)
 class BadRequest(
+    message: String, cause: Throwable? = null,
+    enableSuppression: Boolean = false,
+    writableStackTrace: Boolean = false
+) : RuntimeException(
+    message,
+    cause,
+    enableSuppression,
+    writableStackTrace
+)
+
+@ResponseStatus(UNPROCESSABLE_ENTITY)
+class UnprocessableEntity(
     message: String, cause: Throwable? = null,
     enableSuppression: Boolean = false,
     writableStackTrace: Boolean = false
@@ -95,9 +108,21 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
             APIError(
                 message = ex.message,
                 details = request.getDescription(false),
-                type = NOT_FOUND
+                type = BAD_REQUEST
             ),
-            NOT_FOUND
+            BAD_REQUEST
+        )
+    }
+
+    @ExceptionHandler(UnprocessableEntity::class)
+    fun handleUnprocessableEntityException(ex: Exception, request: WebRequest): ResponseEntity<APIError> {
+        return ResponseEntity(
+            APIError(
+                message = ex.message,
+                details = request.getDescription(false),
+                type = UNPROCESSABLE_ENTITY
+            ),
+            UNPROCESSABLE_ENTITY
         )
     }
 }

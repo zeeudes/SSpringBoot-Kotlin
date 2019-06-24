@@ -7,7 +7,7 @@ import org.springframework.http.converter.json.MappingJacksonValue
 
 interface UserController {
     fun create(user: User): ResponseEntity<String>
-    fun delete(id: Int)
+    fun delete(id: Int): ResponseEntity<String>
     fun getAll(): List<User>
     fun getOne(id: Int): Resource<User>
     fun getBirthDay(id: Int): MappingJacksonValue

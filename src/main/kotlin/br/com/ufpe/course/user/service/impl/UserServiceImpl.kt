@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service
 class UserServiceImpl(
     private val userRepository: UserRepository
 ) : UserService {
-
     override fun findAll(): List<User> = userRepository.findAll()
     override fun save(user: User): User = userRepository.saveAndFlush(user)
     override fun findOne(id: Int): User = userRepository.getOne(id)
-    override fun remove(id: Int) = userRepository.deleteById(id)
+    override fun remove(id: Int): User = findOne(id)
+        .copy(isDeleted=true)
+        .let { save(it) }
 }

@@ -11,6 +11,7 @@ import org.springframework.hateoas.Resource
 import org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo
 import org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn
 import org.springframework.http.HttpStatus.CREATED
+import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.json.MappingJacksonValue
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -30,28 +31,32 @@ class UserControllerImpl(
     override fun create(@RequestBody user: User) = userService.save(user)
         .run { ResponseEntity("User has been created!", CREATED) }
 
-
     @DeleteMapping(path=["/users/{id}"])
     override fun delete(@PathVariable id: Int) = userService.remove(id)
+        .run { ResponseEntity("User has been deleted!", NO_CONTENT) }
 
     @GetMapping(path=["/users"])
     override fun getAll() = userService.findAll()
 
     @GetMapping(path=["/users/{id}/birthday"])
     override fun getBirthDay(@PathVariable id: Int): MappingJacksonValue =
-        MappingJacksonValue(userService.findOne(id))
+        MappingJacksonValue(userService.findOne(id).toFilter())
             .also { it.filters = SimpleFilterProvider()
                 .addFilter("UserFilter", SimpleBeanPropertyFilter
-                    .filterOutAllExcept("birthDate"))
+                    .filterOutAllExcept("birthDate")
+                )
             }
 
     @GetMapping(path=["/users/{id}"])
     override fun getOne(@PathVariable id: Int): Resource<User> =
         Resource(userService.findOne(id))
             .also {
-                it.add(linkTo(methodOn(this.javaClass).getOne(id))
-                    .withSelfRel()
-                    .withRel("get-one")
+                it.add(
+                    linkTo(
+                        methodOn(this.javaClass).getOne(id)
+                    )
+                        .withSelfRel()
+                        .withRel("get-one")
                 )
             }
 

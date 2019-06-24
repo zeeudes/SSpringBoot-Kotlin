@@ -1,10 +1,7 @@
-CREATE SEQUENCE USER_SEQUENCE START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE POST_SEQUENCE START WITH 1 INCREMENT BY 1;
+INSERT INTO user (id, birth_date, name, is_deleted) VALUES (NEXTVAL('USER_SEQUENCE'), sysdate(), 'AB', false);
+INSERT INTO user (id, birth_date, name, is_deleted) VALUES (NEXTVAL('USER_SEQUENCE'), sysdate(), 'Jill', false);
+INSERT INTO user (id, birth_date, name, is_deleted) VALUES (NEXTVAL('USER_SEQUENCE'), sysdate(), 'Jam', false);
 
-INSERT INTO user VALUES (NEXTVAL('USER_SEQUENCE'), sysdate(), 'AB');
-INSERT INTO user VALUES (NEXTVAL('USER_SEQUENCE'), sysdate(), 'Jill');
-INSERT INTO user VALUES (NEXTVAL('USER_SEQUENCE'), sysdate(), 'Jam');
-
-INSERT INTO post VALUES (NEXTVAL('POST_SEQUENCE'), 'My First Post', 1);
-INSERT INTO post VALUES (NEXTVAL('POST_SEQUENCE'), 'My Second Post', 1);
+INSERT INTO post (id, description, user_id) VALUES (NEXTVAL('POST_SEQUENCE'), 'My First Post', 1);
+INSERT INTO post (id, description, user_id) VALUES (NEXTVAL('POST_SEQUENCE'), 'My Second Post', 1);
 
