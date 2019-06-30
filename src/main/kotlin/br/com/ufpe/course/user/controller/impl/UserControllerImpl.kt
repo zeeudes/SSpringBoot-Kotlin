@@ -7,9 +7,6 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider
 import org.springframework.context.MessageSource
 import org.springframework.context.i18n.LocaleContextHolder
-import org.springframework.hateoas.Resource
-import org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo
-import org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.ResponseEntity
@@ -32,11 +29,13 @@ class UserControllerImpl(
         .run { ResponseEntity("User has been created!", CREATED) }
 
     @DeleteMapping(path=["/users/{id}"])
-    override fun delete(@PathVariable id: Int) = userService.remove(id)
-        .run { ResponseEntity("User has been deleted!", NO_CONTENT) }
+    override fun delete(@PathVariable id: Int): ResponseEntity<String> =
+        userService.remove(id).run {
+            ResponseEntity("User has been deleted!", NO_CONTENT)
+        }
 
     @GetMapping(path=["/users"])
-    override fun getAll() = userService.findAll()
+    override fun getAll(): List<User> = userService.findAll()
 
     @GetMapping(path=["/users/{id}/birthday"])
     override fun getBirthDay(@PathVariable id: Int): MappingJacksonValue =
@@ -48,17 +47,7 @@ class UserControllerImpl(
             }
 
     @GetMapping(path=["/users/{id}"])
-    override fun getOne(@PathVariable id: Int): Resource<User> =
-        Resource(userService.findOne(id))
-            .also {
-                it.add(
-                    linkTo(
-                        methodOn(this.javaClass).getOne(id)
-                    )
-                        .withSelfRel()
-                        .withRel("get-one")
-                )
-            }
+    override fun getOne(@PathVariable id: Int): User = userService.findOne(id)
 
     @GetMapping(path=["/hello-world-internationalized"])
     fun helloWorldInternationalized() = messageSource

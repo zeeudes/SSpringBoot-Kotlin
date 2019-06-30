@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.Parameter
 import java.time.ZonedDateTime
+import java.time.ZonedDateTime.now
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType.SEQUENCE
@@ -25,11 +26,12 @@ data class User(
     )
     val id: Int? = null,
     @ApiModelProperty(notes="Name of user")
-    val name: String,
+    val name: String = "",
     @ApiModelProperty(notes="Birth date")
-    val birthDate: ZonedDateTime,
-    val isDeleted: Boolean
+    val birthDate: ZonedDateTime = now(),
+    val isDeleted: Boolean = false
 ) {
+
     fun toFilter() = this.copy()
         .let {
             UserFilter(

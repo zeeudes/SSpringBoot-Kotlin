@@ -13,7 +13,13 @@ class PostServiceImpl(
     private val userService: UserService
 ) : PostService {
 
-    override fun findAllByUserId(id: Int): List<Post> = userService.findOne(id)
+    override fun create(id: Int, post: Post): Post =
+        userService.findOne(id)
+            .let { post.copy(user=it) }
+            .also { postRepository.saveAndFlush(it) }
+
+    override fun findAllByUserId(id: Int): List<Post> =
+        userService.findOne(id)
         .let(postRepository::findAllByUser)
         .also { it.firstOrNull() ?: throw BadRequest("User has not written any posts yet!") }
 }
